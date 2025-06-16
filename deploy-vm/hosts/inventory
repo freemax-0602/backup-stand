@@ -1,5 +1,7 @@
-[service]
+[web]
 web ansible_host=127.0.0.1 ansible_port=2222 ansible_private_key_file=../.vagrant/machines/web/virtualbox/private_key
 
-[logs]
+[service]
 elk ansible_host=127.0.0.1 ansible_port=2200 ansible_private_key_file=../.vagrant/machines/elk/virtualbox/private_key
+backup_srv ansible_host=127.0.0.1 ansible_port=2201 ansible_private_key_file=../.vagrant/machines/backup_srv/virtualbox/private_key
+gitlab ansible_host=127.0.0.1 ansible_port=2202 ansible_private_key_file=../.vagrant/machines/gitlab/virtualbox/private_key

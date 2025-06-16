@@ -20,13 +20,31 @@ MACHINES = {
         :ports => [ [5601,5602] ]
     },
 
-    :rsyslog => {
+    :backup_srv => {
         :box_name => "ubuntu/jammy64",
-        :vm_name => "syslog",
+        :vm_name => "backup",
         :net => [
             ["192.168.1.3", 2, "255.255.255.0","net-1"]
         ],
+        :disks => {
+            :sata1 => {
+                :dfile => './sata1.vdi',
+                :size => 2500, #Megabytes
+                :port => 1
+		    },
+        }
+
+    },
+
+    :gitlab => {
+        :box_name => "ubuntu/jammy64",
+        :vm_name => "gitlab",
+        :net => [
+            ["192.168.1.4", 2, "255.255.255.0","net-1"]
+        ],
+        :port => [[ 80, 8080]]
     }
+
 }
 
 ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
@@ -36,6 +54,7 @@ Vagrant.configure("2") do |config|
         box.vm.box = boxconfig[:box_name]
         box.vm.host_name = boxconfig[:vm_name]
         
+
         box.vm.provider "virtualbox" do |v|
             if boxconfig[:vm_name] == "elk"
                 v.memory = 4096
@@ -43,6 +62,13 @@ Vagrant.configure("2") do |config|
             else
                 v.memory = 2048
                 v.cpus = 1
+            end
+            if boxconfig.key?(:disks)
+                boxconfig[:disks].each do |dname, dconf|
+                  unless File.exist?(dconf[:dfile])
+                    v.customize ['createhd', '--filename', dconf[:dfile], '--variant', 'Fixed', '--size', dconf[:size]]
+                  end
+                end
             end
         end
   
