@@ -36,16 +36,16 @@ MACHINES = {
 
     },
 
-    :gitlab => {
-        :box_name => "ubuntu/jammy64",
-        :vm_name => "gitlab",
-        :net => [
-            ["192.168.1.4", 2, "255.255.255.0","net-1"]
-        ],
-        :port => [[ 80, 8080]]
-    }
-
-}
+#    :gitlab => {
+#        :box_name => "ubuntu/jammy64",
+#        :vm_name => "gitlab",
+#        :net => [
+#            ["192.168.1.4", 2, "255.255.255.0","net-1"]
+#        ],
+#        :port => [[ 80, 8080]]
+#    }
+#
+#}
 
 ENV['VAGRANT_SERVER_URL'] = 'https://vagrant.elab.pro'
 Vagrant.configure("2") do |config|
